@@ -19,7 +19,7 @@ namespace hunzi.Blog.DAL
             ///打开数据库进行操作.
             using (var conn = ConnectionFactory.GetOpenconnection())
             {
-                string sql = string.Format(@"insert into Blog(Title,Body,Body_md,CaBh,CaName,Remark,Sort) values(@Title,@Body,@Body_md,@CaBh,@CaName,@Remark,@Sort);select @@IDENTITY");
+                string sql = string.Format(@"insert into Blog(Title,Body,Body_md,CBh,CName,Remark,Sort) values(@Title,@Body,@Body_md,@CBh,@CName,@Remark,@Sort);select @@IDENTITY");
                 int Id = conn.Query<int>(sql, model).First();
                 return Id;
             }
@@ -47,14 +47,14 @@ namespace hunzi.Blog.DAL
         {
             using(var conn = ConnectionFactory.GetOpenconnection())
             {
-                string sql = string.Format(@"select * from Blog");
+                string sql = string.Format(@"select * from Blog where Status=0");
                 if (!string.IsNullOrEmpty(model.Title))
                 {
-                    sql +=" "+" where Title=@Title";
+                    sql +=" "+"and Title=@Title";
                 }
-                if (!string.IsNullOrEmpty(model.CaName))
+                if (!string.IsNullOrEmpty(model.CName))
                 {
-                    sql +=" "+"where CaName=@CaName";
+                    sql +=" "+"and CName=@CName";
                 }
                 var List = conn.Query<BlogModel>(sql,model).ToList();
                 return List;
@@ -84,7 +84,7 @@ namespace hunzi.Blog.DAL
         {
             using(var conn = ConnectionFactory.GetOpenconnection())
             {
-                string sql = string.Format(@"update Blog set Title=@Title,Body=@Body,CaName=@CaName where Bid=@Bid");
+                string sql = string.Format(@"update Blog set Title=@Title,Body=@Body,CName=@CName where Bid=@Bid");
                 int res = conn.Execute(sql, model);
                 return res;
             }
