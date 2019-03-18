@@ -4,11 +4,14 @@
 }
 
     <blockquote class="layui-elem-quote" style="height:30px;font-size:14px;line-height:0px;font-weight:bold;">添加新文章</blockquote>
-    <form class="layui-form" method="post" action="">
+    <form class="layui-form" method="post" action="" style="padding:10px;height:100%;">
         <div class="layui-form-item">
+            <div class="layui-input;" style="display:none" id="bid">
+                @Html.TextBoxFor(t => t.Bid)
+            </div>
             <label class="layui-form-label">标题</label>
-            <div class="layui-input-block" style="width:500px;">
-                @Html.TextBoxFor(t => t.Title,  new { @placeholder = "请输入标题" ,@class="layui-input", @autocomplete = "off" })
+            <div class="layui-input-block" style="width:500px;" id="title">
+                @Html.TextBoxFor(t => t.Title,  new {@placeholder = "请输入标题" ,@class="layui-input", @autocomplete = "off" })
                 @*<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">*@
             </div>
         </div>
@@ -18,7 +21,7 @@
                 <select name="CBh">
                     @foreach (hunzi.Blog.Model.CategoryModel item in ViewBag.CategoryList)
                     {
-                        <option selected="selected" value=@item.CBh>@item.CName</option>
+                        <option value=@item.CBh>@item.CName</option>
                     }
                 </select>
             </div>
@@ -38,21 +41,30 @@
         </div>
     </form>
     <script>
-        layui.use('form', function () {
-            var form = layui.form, layer = layui.layer;
+        layui.use(['form', 'layer', 'layedit'], function () {
+            var form = layui.form, layer = layui.layer, layedit = layui.layedit;
 
+            var title = document.getElementsByName("Title").values();
+            var bid = document.getElementsByName("Bid").values();
+            
+            layedit.set({
+                uploadImage: {
+                    url: '/Areas/Home/ImgUpload',
+                    type: 'post'
+                }
+            })
 
+            var body=layedit.build('Body', {
+                height: 200
+                
+            });
+            layedit.getContent(body);
             //监听提交
             form.on('submit(formDemo)', function (data) {
                 if (data.field["Title"] == "" || data.field["Title"] == null) {
                     layer.msg("标题不能为空！");
                     return false;
                 } else
-                return true;
-                if (data.field["Body"] == "" || data.field["Body"] == null) {
-                    layer.msg("内容不能为空！");
-                    return false;
-                }
                 return true;
             });
         });

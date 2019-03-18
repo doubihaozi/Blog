@@ -2,49 +2,83 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Amaze UI Admin index Examples</title>
-    <meta name="description" content="这是一个 index 页面">
+    <title>混子博客后台登录</title>
     <meta name="keywords" content="index">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <link rel="icon" type="image/png" href="/assets/i/favicon.png">
-    <link rel="apple-touch-icon-precomposed" href="/assets/i/app-icon72x72@2x.png">
-    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="icon" type="image/png" href="~/assets/i/xianyu.png">
     <link rel="stylesheet" href="/assets/css/amazeui.min.css" />
     <link rel="stylesheet" href="/assets/css/admin.css">
     <link rel="stylesheet" href="/assets/css/app.css">
+    <link href="~/lib/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
 </head>
 <body data-type="login">
     <div class="am-g myapp-login">
         <div class="myapp-login-logo-block  tpl-login-max">
             <div class="myapp-login-logo-text">
                 <div class="myapp-login-logo-text">
-                    Amaze UI<span> Login</span> <i class="am-icon-skyatlas"></i>
-
+                    混子博客<span> Login</span> <i class="am-icon-skyatlas"></i>
                 </div>
             </div>
             <div class="login-font">
                 <i>登录</i>
             </div>
             <div class="am-u-sm-10 login-am-center">
-                <form class="am-form">
-                    <fieldset>
+                <div class="am-form">
+                    <div>
                         <div class="am-form-group">
-                            <input type="email" class="" id="doc-ipt-user-1" placeholder="输入账号">
+                            <input type="text" class="" id="username" placeholder="输入账号">
                         </div>
                         <div class="am-form-group">
-                            <input type="password" class="" id="doc-ipt-pwd-1" placeholder="输入密码">
+                            <input type="password" class="" id="password" placeholder="输入密码">
                         </div>
-                        <p><button type="submit" class="am-btn am-btn-default">登录</button></p>
-                    </fieldset>
-                </form>
+                        <p><button type="submit" class="am-btn am-btn-default" onclick="Login()">登录</button></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <script src="/assets/js/jquery.min.js"></script>
     <script src="/assets/js/amazeui.min.js"></script>
     <script src="/assets/js/app.js"></script>
+    <script src="~/lib/layui/layui.js"></script>
+    <script>
+
+        function Login() {
+            layui.use( 'layer', function () {
+                varlayer = layui.layer;
+
+                var url = '/Areas/Login/Login';
+
+                var UserName = $("#username").val();
+                var Password = $("#password").val();
+                if (UserName == "" || UserName == null) {
+                    layer.msg("账号不能为空！");
+                    return false;
+                } else if (Password == "" || Password == null) {
+                    layer.msg("密码不能为空！");
+                    return false;
+                } else {
+                    var data = { username: UserName, password: Password }
+                    $.post(url, data, function (data) {
+                        console.log(data);
+                        if (data.code == 0)
+                            location.href = "/Areas/Home/Index";
+                        else
+                            layer.msg(data.msg);
+                    }, 'json')
+                }
+            });
+        }
+        $(function () {
+            $(document).keyup(function (event) {
+                if (event.keyCode == 13) {
+                    login();
+                }
+            });
+        });
+    </script>
 </body>
 </html>

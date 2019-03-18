@@ -10,7 +10,7 @@
         </a>
     </div>
     <div class="layui-input-inline">
-        <input id="txtkey" placeholder="标题关键字" type="text" class="layui-input" />
+        <input id="txttitle" placeholder="标题关键字" type="text" class="layui-input" />
     </div>
     <div class="layui-input-inline">
         <input id="txtstartdate" placeholder="开始日期" type="text" class="layui-input" />
@@ -20,10 +20,10 @@
     </div>
     <div class="layui-input-inline">
         <select id="CategoryType" class="layui-input" style="width: 150px;">
-            <option value="0">所有分类</option>
+            <option selected="selected" value="0">所有分类</option>
             @foreach (hunzi.Blog.Model.CategoryModel item in ViewBag.CaList)
             {
-                <option selected="selected" value="@item.CBh">@item.CName</option>
+                <option value="@item.CBh">@item.CName</option>
             }
         </select>
     </div>
@@ -39,35 +39,40 @@
                     <th align="center">操作</th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach (hunzi.Blog.Model.BlogModel item in ViewBag.BlogList)
-                {
-                    <tr>
-                        <td>
-                            @item.Title
-                        </td>
-                        <td>
-                            @item.CreateDate
-                        </td>
-                        <td>
-                            @item.CName
-                        </td>
-                        <td>
-                            @item.ViewNum
-                        </td>
-                        <td>
-                            <a href="/Areas/Home/Add/@item.Bid"><i class="layui-icon layui-icon-edit"></i>编辑</a>
-                            <a href="javascript:viod()0;"onclick="Del(@item.Bid)"><i class="layui-icon layui-icon-delete"></i>删除</a>
-                        </td>
-                    </tr>
-                }
+            <tbody id="BlogList">
+                @*@foreach (hunzi.Blog.Model.BlogModel item in ViewBag.BlogList)
+                    {
+                        <tr>
+                            <td>
+                                @item.Title
+                            </td>
+                            <td>
+                                @item.CreateDate
+                            </td>
+                            <td>
+                                @item.CName
+                            </td>
+                            <td>
+                                @item.ViewNum
+                            </td>
+                            <td>
+                                <a href="/Areas/Home/Add/@item.Bid"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+                                <a href="javascript:viod()0;"onclick="Del(@item.Bid)"><i class="layui-icon layui-icon-delete"></i>删除</a>
+                            </td>
+                        </tr>
+                    }*@
             </tbody>
         </table>
     </div>
+    <div>
+        <div style="float:left;line-height:55px;margin:0 15px;font-size:14px;">
+            当前共<span id="totalCount"></span>篇文章，第<span id="pageIndex"></span>页/共<span id="pageCount"></span>页
+        </div>
+    </div>
+    <div id="page"></div>
 </div>
 <script>
-    LoadBlogList();
-
+    var PageSize = 10;
     function Del(id) {
         layui.use(['layer'], function () {
             var layer = layui.layer, $ = layui.jquery;
@@ -81,9 +86,10 @@
         });
     };
 
-    function LoadBlogList() {
-        layui.use(['laydate'], function () {
-            var laydate = layui.laydate;
+    LoadBlogList(1);
+    function LoadBlogList(pageIndex) {
+        layui.use(['laydate', 'layer', 'laypage'], function () {
+            var laydate = layui.laydate, layer = layui.layer, laypage = layui.laypage;
 
             laydate.render({
                 elem: '#txtstartdate'
@@ -91,7 +97,52 @@
             laydate.render({
                 elem: '#txtenddate'
             });
-        })
 
-    }
+            var title = $.trim($('#txttitle').val());
+            var startTime = $('#txtstartdate').val();
+            var endTime = $('#txtenddate').val();
+            var cBh = $('#CategoryType').val();
+            var Data = {
+                model: {
+                    Title: title,
+                    StartTime: startTime,
+                    EndTime: endTime,
+                    CBh: cBh
+                },
+                pageSize: PageSize,
+                pageIndex: pageIndex
+            };
+            var url = "/Areas/Home/GetBlogList";
+            var BlogListHtml = document.getElementById("BlogList");
+            $.post(url, Data, function (data) {
+                //console.log(data);
+                if (pageIndex == 1) {
+                    laypage.render({
+                        elem: 'page',
+                        count: data.total,
+                        limit: PageSize,
+                        jump: function (obj, first) {
+                            if (!first) {
+                                $('#pageIndex').html(obj.curr);
+                                LoadBlogList(obj.curr);
+                            }
+                        }
+                    });
+                }
+                $('#pageCount').html(data.pageCount);
+                $('#totalCount').html(data.total);
+                $('#pageIndex').html(pageIndex);
+                var Html = "";
+                $.each(data.data, function (i, obj) {
+                    Html += " <td>" + obj.title + "</td> <td>" + obj.createDate + "</td> <td>" + obj.cName + "</td> <td>" + obj.viewNums + "</td> <td><a href='/Areas/Home/Add/" + obj.bId + "' title='编辑'><i class='layui-icon layui-icon-edit'></i>编辑</a><a href='javascriprt:void(0);' onclick='Del(" + obj.bId + ")' title='删除'><i class='layui-icon layui-icon-delete'></i>删除</a></td></tr >";
+                });
+                BlogListHtml.innerHTML = Html;
+            });
+        });
+    };
+
+    $("#btnSearch").click(function () {
+        LoadBlogList(1);
+    });
+
 </script>

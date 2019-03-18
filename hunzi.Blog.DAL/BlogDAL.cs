@@ -9,6 +9,7 @@ namespace hunzi.Blog.DAL
 {
     public class BlogDAL
     {
+        
         /// <summary>
         /// 添加一条博客
         /// </summary>
@@ -20,7 +21,7 @@ namespace hunzi.Blog.DAL
             using (var conn = ConnectionFactory.GetOpenconnection())
             {
                 string sql = string.Format(@"insert into Blog(Title,Body,Body_md,CBh,CName,Remark,Sort) values(@Title,@Body,@Body_md,@CBh,@CName,@Remark,@Sort);select @@IDENTITY");
-                int Id = conn.Query<int>(sql, model).First();
+                int Id = conn.Query<int>(sql, model).FirstOrDefault();
                 return Id;
             }
         }
@@ -33,7 +34,7 @@ namespace hunzi.Blog.DAL
         {
             using (var conn = ConnectionFactory.GetOpenconnection())
             {
-                string sql = string.Format(@"delete from Blog where Bid=@Id");
+                string sql = string.Format(@"update Blog set Status=-1 where Bid=@Id");
                 int res = conn.Execute(sql,new { Id = Id });
                 return res;
             }
@@ -43,21 +44,36 @@ namespace hunzi.Blog.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static List<Model.BlogModel> GetBlog(BlogModel model)
+        public static List<Model.BlogModel> GetBlogList(string where="")
+        {
+            using (var conn = ConnectionFactory.GetOpenconnection())
+            {
+                string sql = string.Format(@"select * from Blog where Status=0");
+                if (where != "")
+                {
+                    sql += " " + where;
+                }
+                var List = conn.Query<BlogModel>(sql).ToList();
+                return List;
+            }
+        }
+
+        /// <summary>
+        /// 统计博客数量、状态为正常的
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public static  int GetCount(string where="")
         {
             using(var conn = ConnectionFactory.GetOpenconnection())
             {
-                string sql = string.Format(@"select * from Blog where Status=0");
-                if (!string.IsNullOrEmpty(model.Title))
+                string sql = string.Format(@"select count(*) from Blog where Status=0");
+                if (where != "")
                 {
-                    sql +=" "+"and Title=@Title";
+                    sql += " "+ where;
                 }
-                if (!string.IsNullOrEmpty(model.CName))
-                {
-                    sql +=" "+"and CName=@CName";
-                }
-                var List = conn.Query<BlogModel>(sql,model).ToList();
-                return List;
+                int count = conn.ExecuteScalar<int>(sql);
+                return count;
             }
         }
 
@@ -71,7 +87,7 @@ namespace hunzi.Blog.DAL
             using(var conn = ConnectionFactory.GetOpenconnection())
             {
                 string sql = string.Format(@"select * from Blog where Bid=@Bid");
-                var Blog = conn.QueryFirst<BlogModel>(sql,new { Bid =Bid});
+                var Blog = conn.QueryFirstOrDefault<BlogModel>(sql,new { Bid =Bid});
                 return Blog;
             }
         }
@@ -84,7 +100,8 @@ namespace hunzi.Blog.DAL
         {
             using(var conn = ConnectionFactory.GetOpenconnection())
             {
-                string sql = string.Format(@"update Blog set Title=@Title,Body=@Body,CName=@CName where Bid=@Bid");
+                string sql = string.Format(@"update Blog set Title=@Title,Body=@Body,CName=@CName 
+                                            where Bid=@Bid");
                 int res = conn.Execute(sql, model);
                 return res;
             }

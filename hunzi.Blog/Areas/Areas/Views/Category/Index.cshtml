@@ -42,7 +42,7 @@
     function Del(id) {
         layui.use(['layer'], function () {
             var layer = layui.layer, $ = layui.jquery;
-            var url = "/Areas/Home/Delete/" + id;
+            var url = "/Areas/Category/Delete/" + id;
             layer.confirm('是否确认删除?', function () {
                 $.post(url, function (mse) {
                     layer.alert(mse, function () { location.reload() });

@@ -32,7 +32,7 @@ namespace hunzi.Blog.Model
         /// <summary>
         /// 访问量
         /// </summary>
-        public int ViewNum { get; set; }
+        public int ViewNums { get; set; }
         /// <summary>
         /// 分类编号
         /// </summary>
@@ -57,5 +57,13 @@ namespace hunzi.Blog.Model
         /// 添加者ID
         /// </summary>
         public int Aid { get; set; }
+        /// <summary>
+        /// 开始时间
+        /// </summary>
+        public DateTime? StartTime { get; set; }
+        /// <summary>
+        /// 结束时间
+        /// </summary>
+        public DateTime? EndTime { get; set; }
     }
 }

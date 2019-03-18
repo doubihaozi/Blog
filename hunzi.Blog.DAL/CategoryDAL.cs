@@ -19,7 +19,7 @@ namespace hunzi.Blog.DAL
             using (var connection = ConnectionFactory.GetOpenconnection())
             {
                 string sql =string.Format(@"insert into Category(CName,CBh,PCBh,Remark) values(@CName,@CBh,@PCBh,@Remark);select @@IDENTITY");
-                int id = connection.Query<int>(sql,categoryModel).First();
+                int id = connection.Query<int>(sql,categoryModel).FirstOrDefault();
                 return id;
             }
         }
@@ -48,13 +48,28 @@ namespace hunzi.Blog.DAL
         {
             using(var conn = ConnectionFactory.GetOpenconnection())
             {
-                string sql = string.Format(@"update Category set Status=-1 where Cid=@Cid");
-                int res = conn.Execute(sql, ID);
+                string sql = string.Format(@"update Category set Status=-1 where Cid=@ID");
+                int res = conn.Execute(sql, new { ID=ID});
                 if (res > 0)
                     return true;
                 else
                     return false;
 
+            }
+        }
+
+        /// <summary>
+        /// 查询分类名称以及备注
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public static CategoryModel GetNameAndRemarkById(int Id)
+        {
+            using(var conn = ConnectionFactory.GetOpenconnection())
+            {
+                string sql = string.Format(@"select CName,Remark from Category where Cid=@Id");
+                var model = conn.QueryFirstOrDefault<CategoryModel>(sql, new { Id = Id });
+                return model;
             }
         }
 

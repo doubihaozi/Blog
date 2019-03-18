@@ -18,10 +18,14 @@ namespace hunzi.Blog.Areas.Areas.Controllers
         }
 
 
-        public IActionResult Add()
+        public IActionResult Add(int?Id)
         {
             CategoryModel category = new CategoryModel();
-            return View();
+            if (Id != null)
+            {
+                category = CategoryDAL.GetNameAndRemarkById(Id.Value);
+            }
+            return View(category);
         }
 
         /// <summary>
@@ -41,5 +45,18 @@ namespace hunzi.Blog.Areas.Areas.Controllers
             }
             return Redirect("/Areas/Category/Index");
         }
+
+        public IActionResult Delete(int id)
+        {
+            if (CategoryDAL.Delete(id))
+            {
+                return Content("删除成功！");
+            }
+            else
+            {
+                return Content("删除失败！请联系管理员。");
+            }
+        }
+
     }
 }

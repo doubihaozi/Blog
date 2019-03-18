@@ -21,11 +21,11 @@ namespace hunzi.Blog.Controllers
             //    return Content("修改成功！");
             //}
             //else
-            List<BlogModel> models = BlogDAL.GetBlog(new BlogModel { Title="",CName=""});
-            foreach (var item in models)
-            {
-                str = $"<div>博客标题:" + item.Title + ",内容:" + item.Body + "</div>";
-            }
+            //List<BlogModel> models = BlogDAL.GetBlogList();
+            //foreach (var item in models)
+            //{
+            //    str = $"<div>博客标题:" + item.Title + ",内容:" + item.Body + "</div>";
+            //}
             return Content(str);
         }
     }

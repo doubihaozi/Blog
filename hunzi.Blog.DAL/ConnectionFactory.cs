@@ -16,7 +16,7 @@ namespace hunzi.Blog.DAL
     {
         public static DbConnection GetOpenconnection()
         {
-            //var connection = new SqlConnection("server=47.107.124.51;uid=root;pwd=123456;database=BlogCore;");
+            //var connection = new SqlConnection("server=;uid=root;pwd=;database=;");
             var conn = new MySqlConnection("server=47.107.124.51;user id=root;password=123456;pooling=true;Charset=utf8;database=BlogCore;");
             //connection.Open();
             conn.Open();

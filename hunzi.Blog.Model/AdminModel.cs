@@ -16,7 +16,7 @@ namespace hunzi.Blog.Model
         /// <summary>
         /// 添加时间
         /// </summary>
-        public DateTime CreateTime { get; set;}
+        public DateTime CreateDate { get; set;}
         /// <summary>
         /// 账号
         /// </summary>
@@ -37,5 +37,9 @@ namespace hunzi.Blog.Model
         /// 是否为管理员账号 0=管理员、1=普通用户
         /// </summary>
         public int State { get; set; }
+        /// <summary>
+        /// 昵称
+        /// </summary>
+        public string Nickname { get; set; }
     }
 }
