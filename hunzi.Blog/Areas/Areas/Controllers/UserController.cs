@@ -11,6 +11,13 @@ namespace hunzi.Blog.Areas.Areas.Controllers
     [Area("Areas")]
     public class UserController : Controller
     {
+        AdminDAL AdminDAL;
+
+        public UserController(AdminDAL adminDAL)
+        {
+            AdminDAL = adminDAL;
+        }
+
         public IActionResult Index()
         {
             ViewBag.List = AdminDAL.GetAdminList();

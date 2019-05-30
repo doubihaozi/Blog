@@ -9,17 +9,24 @@ namespace hunzi.Blog.DAL
 {
     public class CategoryDAL
     {
+        public string ConnStr { get; set; }
+
+        public CategoryDAL(string connstr)
+        {
+            this.ConnStr = connstr;
+        }
+
         /// <summary>
         /// 添加分类
         /// </summary>
         /// <param name="categoryModel"></param>
         /// <returns></returns>
-        public static int Insert(CategoryModel categoryModel)
+        public int Insert(CategoryModel categoryModel)
         {
-            using (var connection = ConnectionFactory.GetOpenconnection())
+            using (var connection = ConnectionFactory.GetOpenconnection(ConnStr))
             {
-                string sql =string.Format(@"insert into Category(CName,CBh,PCBh,Remark) values(@CName,@CBh,@PCBh,@Remark);select @@IDENTITY");
-                int id = connection.Query<int>(sql,categoryModel).FirstOrDefault();
+                string sql = string.Format(@"insert into Category(CName,CBh,PBh,Remark) values(@CName,@CBh,@PBh,@Remark);select @@IDENTITY");
+                int id = connection.Query<int>(sql, categoryModel).FirstOrDefault();
                 return id;
             }
         }
@@ -28,9 +35,9 @@ namespace hunzi.Blog.DAL
         /// 查询最后一条分类列表记录
         /// </summary>
         /// <returns></returns>
-        public static CategoryModel GetNoeCategory()
+        public CategoryModel GetNoeCategory()
         {
-            using(var conn = ConnectionFactory.GetOpenconnection())
+            using (var conn = ConnectionFactory.GetOpenconnection(ConnStr))
             {
                 string sql = string.Format(@"select * from Category order by Cid Desc limit 1");
                 var category = conn.QueryFirstOrDefault<CategoryModel>(sql);
@@ -44,12 +51,12 @@ namespace hunzi.Blog.DAL
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        public static bool Delete(int ID)
+        public bool Delete(int ID)
         {
-            using(var conn = ConnectionFactory.GetOpenconnection())
+            using (var conn = ConnectionFactory.GetOpenconnection(ConnStr))
             {
                 string sql = string.Format(@"update Category set Status=-1 where Cid=@ID");
-                int res = conn.Execute(sql, new { ID=ID});
+                int res = conn.Execute(sql, new { ID = ID });
                 if (res > 0)
                     return true;
                 else
@@ -59,15 +66,34 @@ namespace hunzi.Blog.DAL
         }
 
         /// <summary>
+        /// 根据ID修改分类备注以及名称
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public bool updateCategoru(CategoryModel model) {
+            using (var conn = ConnectionFactory.GetOpenconnection(ConnStr))
+            {
+                string sql = string.Format(@"update  Category set CName=@CName,Remark=@Remark where Cid=@Cid");
+                int res = conn.Execute(sql, model);
+                if (res > 0)
+                {
+                    return true;
+                }
+                else
+                    return false;
+            }
+        }
+
+        /// <summary>
         /// 查询分类名称以及备注
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public static CategoryModel GetNameAndRemarkById(int Id)
+        public CategoryModel GetNameAndRemarkById(int Id)
         {
-            using(var conn = ConnectionFactory.GetOpenconnection())
+            using (var conn = ConnectionFactory.GetOpenconnection(ConnStr))
             {
-                string sql = string.Format(@"select CName,Remark from Category where Cid=@Id");
+                string sql = string.Format(@"select * from Category where Cid=@Id");
                 var model = conn.QueryFirstOrDefault<CategoryModel>(sql, new { Id = Id });
                 return model;
             }
@@ -78,9 +104,9 @@ namespace hunzi.Blog.DAL
         /// </summary>
         /// <param name="cbh"></param>
         /// <returns></returns>
-        public static CategoryModel GetCategoryByBh(string cbh)
+        public CategoryModel GetCategoryByBh(string cbh)
         {
-            using (var conn = ConnectionFactory.GetOpenconnection())
+            using (var conn = ConnectionFactory.GetOpenconnection(ConnStr))
             {
                 string sql = string.Format(@"select * from Category where CBh=@CBh and Status=0");
                 var model = conn.QueryFirstOrDefault<CategoryModel>(sql, new { cbh = cbh });
@@ -92,15 +118,15 @@ namespace hunzi.Blog.DAL
         /// 获取分类列表
         /// </summary>
         /// <returns></returns>
-        public static List<CategoryModel> CategoryList()
+        public List<CategoryModel> CategoryList()
         {
-            using(var conn = ConnectionFactory.GetOpenconnection())
+            using (var conn = ConnectionFactory.GetOpenconnection(ConnStr))
             {
                 string sql = string.Format(@"select * from Category where Status=0");
                 var List = conn.Query<CategoryModel>(sql).ToList();
                 return List;
             }
-            
+
         }
     }
 }

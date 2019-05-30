@@ -12,6 +12,14 @@ namespace hunzi.Blog.Areas.Areas.Controllers
     [Area("Areas")]
     public class LoginController : Controller
     {
+
+        AdminDAL AdminDAL;
+
+        public LoginController(AdminDAL adminDAL)
+        {
+            AdminDAL = adminDAL;
+        }
+
         public IActionResult Login()
         {
             return View();

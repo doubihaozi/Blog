@@ -2,12 +2,12 @@
     Layout = null;
 }
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta charset="utf-8" />
     <title>后台博客管理</title>
     <script src="~/lib/jquery/dist/jquery.js"></script>
+    <link rel="icon" type="image/x-icon" href="~/xianyu.ico" />
     <link href="~/lib/layui/css/layui.css" rel="stylesheet" />
     <link href="~/css/index.css" rel="stylesheet" />
 
@@ -55,7 +55,7 @@
                         @ViewBag.UserName
                     </a>
                     <dl class="layui-nav-child">
-                        <dd>@*<a href="javascript:;" lay-href="/Areas/System/UserInfo"><i class="layui-icon layui-icon-form"></i>基本资料</a>*@</dd>
+                        <dd><a href="javascript:;" lay-href="/Areas/System/UserInfo"><i class="layui-icon layui-icon-form"></i>基本资料</a></dd>
                         <dd><a href="javascript:;" lay-href="/Areas/System/ChangePassWord"><i class="layui-icon layui-icon-password"></i>修改密码</a></dd>
                     </dl>
                 </li>
@@ -236,7 +236,7 @@
             });
         });
         function ClosePage() {
-            window.location.href = "about:blank";
+            window.location.href = "/Areas/Login/Login";
 
             parent.window.close();
             window.close();

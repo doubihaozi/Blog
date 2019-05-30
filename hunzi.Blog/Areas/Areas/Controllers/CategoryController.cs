@@ -11,6 +11,13 @@ namespace hunzi.Blog.Areas.Areas.Controllers
     [Area("Areas")]
     public class CategoryController : Controller
     {
+        
+        CategoryDAL CategoryDAL;
+        public CategoryController(CategoryDAL categoryDAL)
+        {
+            CategoryDAL = categoryDAL;
+        }
+
         public IActionResult Index()
         {
             ViewBag.CaList = CategoryDAL.CategoryList();
@@ -42,6 +49,9 @@ namespace hunzi.Blog.Areas.Areas.Controllers
                 category.CBh ="0"+(int.Parse(model.CBh) + 1).ToString();
                 category.CreateDate = DateTime.Now;
                 CategoryDAL.Insert(category);
+            }
+            else if (category.Cid != 0) {
+                CategoryDAL.updateCategoru(category);
             }
             return Redirect("/Areas/Category/Index");
         }

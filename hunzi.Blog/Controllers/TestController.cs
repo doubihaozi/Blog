@@ -10,10 +10,16 @@ namespace hunzi.Blog.Controllers
 {
     public class TestController : Controller
     {
+        AdminDAL Admin { get; set; }
+        public TestController(AdminDAL admin)
+        {
+            this.Admin = admin;
+        }
+
         public IActionResult Index()
         {
-            string str = "";
-            int id = 0;
+            string str = Admin.ConnStr;
+            //int id = 0;
             //id = BlogDAL.Insert(new Model.BlogModel { Title = "测试", Body = "测试内容", Body_md = string.Empty, CaBh = "01", CaName = "C#", Remark = "" });
             //id = BlogDAL.Update(new Model.BlogModel { Title = "测试2", Body = "测试内容2", CaName = "Java", Bid = 1 });
             //if(id>0)

@@ -26,8 +26,11 @@
                         <td>@item.Nickname</td>
                         <td>@item.CreateDate</td>
                         <td>
-                            <a href="/Areas/Category/Add/@item.Aid"><i class="layui-icon layui-icon-edit"></i>编辑</a>
-                            <a href="javascript:viod()0" onclick="Del(@item.Aid)"><i class="layui-icon layui-icon-delete"></i>删除</a>
+                            @if (item.UserName != "admin")
+                            {
+                                <a href="javascript:;" id="bj"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+                                <a href="javascript:viod()0" onclick="Del(@item.Aid)"><i class="layui-icon layui-icon-delete"></i>删除</a>
+                            }
                         </td>
                     </tr>
                 }

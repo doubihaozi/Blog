@@ -14,10 +14,15 @@ namespace hunzi.Blog.DAL
     /// </summary>
     public class ConnectionFactory
     {
-        public static DbConnection GetOpenconnection()
+        /// <summary>
+        /// 连接数据库
+        /// </summary>
+        /// <param name="ConnStr"></param>
+        /// <returns></returns>
+        public static DbConnection GetOpenconnection(string ConnStr)
         {
             //var connection = new SqlConnection("server=;uid=root;pwd=;database=;");
-            var conn = new MySqlConnection("server=47.107.124.51;user id=root;password=123456;pooling=true;Charset=utf8;database=BlogCore;");
+            var conn = new MySqlConnection(ConnStr);
             //connection.Open();
             conn.Open();
             return conn;

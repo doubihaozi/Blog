@@ -12,6 +12,7 @@ using System.IO;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 
 namespace hunzi.Blog.Areas.Areas.Controllers
 {
@@ -20,9 +21,16 @@ namespace hunzi.Blog.Areas.Areas.Controllers
     {
         private IHostingEnvironment hostingEvn;
 
-        public HomeController(IHostingEnvironment env)
+        AdminDAL AdminDAL;
+        BlogDAL BlogDAL;
+        CategoryDAL CategoryDAL;
+
+        public HomeController(IHostingEnvironment env,AdminDAL adminDAL,BlogDAL blogDAL,CategoryDAL categoryDAL)
         {
             this.hostingEvn = env;
+            AdminDAL = adminDAL;
+            BlogDAL = blogDAL;
+            CategoryDAL = categoryDAL;
         }
 
         public IActionResult Index()
@@ -74,6 +82,7 @@ namespace hunzi.Blog.Areas.Areas.Controllers
                 if (model != null)
                 {
                     blog.CName = model.CName;
+                    blog.CBh = model.CBh;
                 }
                 blog.CreateDate = DateTime.Now;
                 blog.Aid = 1;
@@ -84,6 +93,7 @@ namespace hunzi.Blog.Areas.Areas.Controllers
                 if (model != null)
                 {
                     blog.CName = model.CName;
+                    blog.CBh = model.CBh;
                 }
                 BlogDAL.Update(blog);
             }
@@ -117,28 +127,29 @@ namespace hunzi.Blog.Areas.Areas.Controllers
         [HttpPost]
         public IActionResult GetBlogList(BlogModel model, int pageIndex, int pageSize)
         {
+            DateTime date = default(DateTime);
             string where = "";
             if (!string.IsNullOrEmpty(model.Title))
             {
                 model.Title = Tool.GetSafeSQL(model.Title);
-                where += $"and Title like '%{model.Title}%'";
+                where += $" and Title like '%{model.Title}%'";
             }
-            if (!string.IsNullOrEmpty(model.StartTime.ToString()))
+            if (date!=model.StartTime)
             {
-                where += $"and CreateDate>={model.StartTime}";
+                where += $" and CreateDate>={model.StartTime.ToString("yyyy-MM-dd")}";
             }
-            if (!string.IsNullOrEmpty(model.EndTime.ToString()))
+            if (model.EndTime!=date)
             {
-                where += $"and CreateDate<={model.EndTime}";
+                where += $" and CreateDate<={model.EndTime.ToString("yyyy-MM-dd")}";
             }
             if (!string.IsNullOrEmpty(model.CBh) && model.CBh != "0")
             {
                 model.CBh = Tool.GetSafeSQL(model.CBh);
-                where += $"and CBh='{model.CBh}'";
+                where += $" and CBh='{model.CBh}'";
             }
             int Count = BlogDAL.GetCount(where);
             int PageIndex = (pageIndex - 1) * pageSize;
-            where += $"limit {PageIndex},{pageSize}";
+            where += $" limit {PageIndex},{pageSize}";
 
             var List = BlogDAL.GetBlogList(where);
             ArrayList arr = new ArrayList();
@@ -164,7 +175,7 @@ namespace hunzi.Blog.Areas.Areas.Controllers
         /// <param name="Bid"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult ImgUpload()
+        public IActionResult ImgUpload(string Title)
         {
             long size = 0;
             var imgFile = Request.Form.Files[0];
@@ -182,24 +193,24 @@ namespace hunzi.Blog.Areas.Areas.Controllers
                     return Json(new { code = 1, msg = "只允许上传jpg,png,gif格式的图片" });
                 }
                 #endregion
-                string dir = DateTime.Now.ToString("yyyyMMdd");
-                string filename1 = Guid.NewGuid().ToString().Substring(0, 6) + extname;
-                if (!Directory.Exists(webRootPath + $@"\upload\{dir}"))
+                string filename1 = DateTime.Now.ToString("yyyyMMdd") + extname;
+                if (!Directory.Exists(webRootPath + $@"\upload\{Title}"))
                 {
-                    Directory.CreateDirectory(webRootPath + $@"\upload\{dir}");
+                    Directory.CreateDirectory(webRootPath + $@"\upload\{Title}");
                 }
-                filename = hostingEvn.WebRootPath + $@"\upload\{dir}\{filename1}";
+                filename = hostingEvn.WebRootPath + $@"\upload\{Title}\{filename1}";
                 size += imgFile.Length;
                 using (FileStream fs = System.IO.File.Create(filename))
                 {
                     imgFile.CopyTo(fs);
                     fs.Flush();
                 }
-                return Json(new { code = 0, msg = "上传成功！", data = new { src = $@"\upload\{dir}\{filename1}", title = filename } });
+                return Json(new { code = 0, msg = "上传成功！", data = new { src = $@"\upload\{Title}\{filename1}", title = filename } });
             }
             else return Json(new { code = 1, msg = "上传失败！" });
         }
-            
-       
+
+        
+
     }
 }

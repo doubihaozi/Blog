@@ -1,106 +1,191 @@
 ﻿@{
-    
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/res/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/res/css/main.css">
+    <!--加载meta IE兼容文件-->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="header">
+        <div class="menu-btn">
+            <div class="menu"></div>
+        </div>
+        <h1 class="logo">
+            <a href="index.html">
+                <span>MYBLOG</span>
+                <img src="../res/img/logo.png">
+            </a>
+        </h1>
+        <div class="nav">
+            <a href="Index.html" class="active">文章</a>
+            <a href="album.html">相册</a>
+            <a href="about.html">关于</a>
+        </div>
 
-<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-        <li data-target="#myCarousel" data-slide-to="3"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="~/images/banner1.svg" alt="ASP.NET" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Learn how to build ASP.NET apps that can run anywhere.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner2.svg" alt="Visual Studio" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    There are powerful new features in Visual Studio for building modern web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner3.svg" alt="Package Management" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Bring in libraries from NuGet and npm, and automate tasks using Grunt or Gulp.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525029&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner4.svg" alt="Microsoft Azure" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Learn how Microsoft's Azure cloud platform allows you to build, deploy, and scale web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
+        <p class="welcome-text">
+            欢迎来到<span class="name">小明</span>的博客~
+        </p>
     </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
 
-<div class="row">
-    <div class="col-md-3">
-        <h2>Application uses</h2>
-        <ul>
-            <li>Sample pages using ASP.NET Core MVC</li>
-            <li>Theming using <a href="https://go.microsoft.com/fwlink/?LinkID=398939">Bootstrap</a></li>
-        </ul>
+    <div class="banner">
+        <div class="cont w1000">
+            <div class="title">
+                <h3>MY<br />BLOG</h3>
+            </div>
+            <div class="amount">
+                <p><span class="text">访问量</span><span class="access">1000</span></p>
+                <p><span class="text">文章</span><span class="daily-record">1000</span></p>
+            </div>
+        </div>
     </div>
-    <div class="col-md-3">
-        <h2>How to</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398600">Add a Controller and View</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699315">Manage User Secrets using Secret Manager.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699316">Use logging to log a message.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699317">Add packages using NuGet.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699319">Target development, staging or production environment.</a></li>
-        </ul>
+    <div class="content">
+        <div class="cont w1000">
+            <div class="title">
+                <span class="layui-breadcrumb" lay-separator="|">
+                    <a href="javascript:;" class="active">设计文章</a>
+                    <a href="javascript:;">前端文章</a>
+                    <a href="javascript:;">旅游杂记</a>
+                </span>
+            </div>
+            <div class="list-item">
+                <div class="item">
+                    <div class="layui-fluid">
+                        <div class="layui-row">
+                            <div class="layui-col-xs12 layui-col-sm4 layui-col-md5">
+                                <div class="img"><img src="../res/img/sy_img1.jpg" alt=""></div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm8 layui-col-md7">
+                                <div class="item-cont">
+                                    <h3>空间立体效果图，完美呈现最终效果<button class="layui-btn layui-btn-danger new-icon">new</button></h3>
+                                    <h5>设计文章</h5>
+                                    <p>室内设计作为一门新兴的学科，尽管还只是近数十年的事，但是人们有意识地对自己生活、生产活动的室内进行安排布置，甚至美化装饰，赋予室内环境以所祈使的气氛，却早巳从人类文明伊始的时期就已存在</p>
+                                    <a href="details.html" class="go-icon"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div style="float:left;line-height:55px;margin:0 15px;font-size:14px;">
+                    当前共<span id="totalCount"></span>篇文章，第<span id="pageIndex"></span>页/共<span id="pageCount"></span>页
+                </div>
+            </div>
+            <div id="demo" style="text-align: center;"></div>
+        </div>
     </div>
-    <div class="col-md-3">
-        <h2>Overview</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699320">Fundamentals of ASP.NET Core such as Startup and middleware.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398602">Working with Data</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398603">Security</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699321">Client side development</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699322">Develop on different platforms</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699323">Read more on the documentation site</a></li>
-        </ul>
+
+    <div class="footer-wrap">
+        <div class="footer w1000">
+            <div class="qrcode">
+                <img src="../res/img/erweima.jpg">
+            </div>
+            <div class="practice-mode">
+                <img src="../res/img/down_img.jpg">
+                <div class="text">
+                    <h4 class="title">我的联系方式</h4>
+                    <p>微信<span class="WeChat">1234567890</span></p>
+                    <p>邮箱<span class="email">1234567890@qq.com</span></p>
+                    <p>More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-3">
-        <h2>Run &amp; Deploy</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517853">Run tools such as EF migrations and more</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
-        </ul>
-    </div>
-</div>
+    <script type="text/javascript" src="~/lib/layui/layui.js"></script>
+    <script type="text/javascript">
+
+        layui.config({
+            base: '../res/js/util/'
+        }).use(['element', 'laypage', 'jquery', 'menu'], function () {
+            element = layui.element, laypage = layui.laypage, $ = layui.$, menu = layui.menu;
+            laypage.render({
+                elem: 'demo'
+                , count: 70 //数据总数，从服务端得到
+            });
+            menu.init();
+        })
+
+        function LoadBlogList(pageIndex) {
+            layui.use(['laydate', 'layer', 'laypage'], function () {
+                var laydate = layui.laydate, layer = layui.layer, laypage = layui.laypage;
+
+                laydate.render({
+                    elem: '#txtstartdate'
+                });
+                laydate.render({
+                    elem: '#txtenddate'
+                });
+
+                var title = $.trim($('#txttitle').val());
+                var startTime = $('#txtstartdate').val();
+                var endTime = $('#txtenddate').val();
+                var cBh = $('#CategoryType').val();
+                var Data = {
+                    model: {
+                        Title: title,
+                        StartTime: startTime,
+                        EndTime: endTime,
+                        CBh: cBh
+                    },
+                    pageSize: PageSize,
+                    pageIndex: pageIndex
+                };
+                var url = "/Home/GetBlogList";
+                var BlogListHtml = document.getElementById("list-item");
+                $.post(url, Data, function (data) {
+                    //console.log(data);
+                    if (pageIndex == 1) {
+                        laypage.render({
+                            elem: 'page',
+                            count: data.total,
+                            limit: PageSize,
+                            jump: function (obj, first) {
+                                if (!first) {
+                                    $('#pageIndex').html(obj.curr);
+                                    LoadBlogList(obj.curr);
+                                }
+                            }
+                        });
+                    }
+                    $('#pageCount').html(data.pageCount);
+                    $('#totalCount').html(data.total);
+                    $('#pageIndex').html(pageIndex);
+                    var Html = "";
+                    $.each(data.data, function (i, obj) {
+                        Html += '<div class="item">'
+                        Html += '<div class="layui-fluid">'
+                        Html += '<div class="layui-row">'
+                        Html += '<div class="layui-col-xs12 layui-col-sm4 layui-col-md5">'
+                        Html += '<div class="img"><img src="../res/img/sy_img1.jpg" alt=""></div>'
+                        Html += '</div>'
+                        Html += '<div class="layui-col-xs12 layui-col-sm8 layui-col-md7">'
+                        Html += '<div class="item-cont">'
+                        Html += '<h3>' + obj.title + '<button class="layui-btn layui-btn-danger new-icon">new</button></h3>'
+                        Html += '<h5>' + obj.cname + '</h5>'
+                        Html += '<p>' + obj.body+'</p>'
+                        Html += '<a href="details.html" class="go-icon"></a>'
+                        Html += '</div>'
+                        Html += '</div>'
+                        Html += '</div>'
+                        Html += '</div>'
+                        Html += '</div>'
+                    });
+                    BlogListHtml.innerHTML = Html;
+                });
+            });
+        };
+
+
+    </script>
+</body>
+</html>

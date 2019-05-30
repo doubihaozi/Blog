@@ -5,6 +5,9 @@
 
 <form class="layui-form" action="" method="post" style="padding:10px;height:100%;">
     <div class="layui-form-item">
+        <div class="layui-input;" style="display:none" id="bid">
+            @Html.TextBoxFor(t => t.Cid)
+        </div>
         <label class="layui-form-label">标题：</label>
         <div class="layui-input-block">
             @Html.TextBoxFor(model => model.CName, htmlAttributes: new { @class = "layui-input", @placeholder = "请输入类型", @autocomplete = "off" })

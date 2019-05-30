@@ -9,13 +9,20 @@ namespace hunzi.Blog.DAL
 {
     public class AdminDAL
     {
+
+        public string ConnStr { get; set; }
+
+        public AdminDAL(string connstr)
+        {
+            this.ConnStr = connstr;
+        }
         /// <summary>
         /// 获取管理员(用户)列表
         /// </summary>
         /// <returns></returns>
-        public static List<AdminModel> GetAdminList()
+        public  List<AdminModel> GetAdminList()
         {
-            using (var conn = ConnectionFactory.GetOpenconnection())
+            using (var conn = ConnectionFactory.GetOpenconnection(ConnStr))
             {
                 string sql = string.Format(@"select * from admin where Status=0");
                 var List = conn.Query<AdminModel>(sql).ToList();
@@ -29,10 +36,10 @@ namespace hunzi.Blog.DAL
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public static AdminModel Login(string username, string password)
+        public AdminModel Login(string username, string password)
         {
             string sql = string.Format(@"select * from admin where Status=0 and UserName=@username and PassWord=@password");
-            using(var conn = ConnectionFactory.GetOpenconnection())
+            using(var conn = ConnectionFactory.GetOpenconnection(ConnStr))
             {
                 var admin = conn.QueryFirstOrDefault<AdminModel>(sql, new { username = username, password = password });
                 return admin;
@@ -44,9 +51,9 @@ namespace hunzi.Blog.DAL
         /// </summary>
         /// <param name="admin"></param>
         /// <returns></returns>
-        public static int Insert(AdminModel admin)
+        public int Insert(AdminModel admin)
         {
-            using(var conn = ConnectionFactory.GetOpenconnection())
+            using(var conn = ConnectionFactory.GetOpenconnection(ConnStr))
             {
                 string sql = string.Format(@"insert into admin(UserName,PassWord,Remark,State,Nickname) values(@UserName,@PassWord,@Remark,@State,@Nickname);select @@IDENTITY");
                 var Id = conn.Query<int>(sql, admin).First();
@@ -59,9 +66,9 @@ namespace hunzi.Blog.DAL
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public static int Delete(int Id)
+        public int Delete(int Id)
         {
-            using(var conn = ConnectionFactory.GetOpenconnection())
+            using(var conn = ConnectionFactory.GetOpenconnection(ConnStr))
             {
                 string sql = string.Format(@"update admin Set Status=-1 where Aid=@Id");
                 int res = conn.Execute(sql, new { Id = Id });
